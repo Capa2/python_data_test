@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 import mysql.connector
 from mysql.connector import Error
-from utils.logger import get_logger
+from utils.log_helper import get_logger
 
 SQL_LOGGER = get_logger("sql_log")
 

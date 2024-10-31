@@ -4,7 +4,8 @@ from assignment_1 import name_length
 from assignment_2 import data_transformer
 from assignment_3 import data_handler
 from assignment_5 import nortwind
-from big_data import biggus_data
+import big_data
+import big_data.main
 from utils import db_config
 
 def main():
@@ -28,7 +29,7 @@ def main():
          nortwind.main()
          plt.show()
     if (run_assignment == 6):
-         biggus_data.main()
+         big_data.main.main()
          
 if __name__ == "__main__":
     main()

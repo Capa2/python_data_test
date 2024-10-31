@@ -1,6 +1,6 @@
 from functools import wraps
 import pandas as pd
-from utils.logger import get_logger
+from utils.log_helper import get_logger
 from utils.db_config import get_connection, get_engine
 
 SQL_LOGGER = get_logger("sql_log")
