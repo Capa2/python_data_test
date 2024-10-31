@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 from functools import wraps
 
-def plot_to_png(folder_path, base_filename="plot"):
+def plot_to_pdf(folder_path, base_filename="plot"):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -13,13 +13,13 @@ def plot_to_png(folder_path, base_filename="plot"):
             # Run the plotting function(s)
             func(*args, **kwargs)
             
-            # Loop through all active figures and save each as a PNG
+            # Loop through all active figures and save each as a PDF
             for i, figure_num in enumerate(plt.get_fignums(), start=1):
                 fig = plt.figure(figure_num)
-                png_path = os.path.join(folder_path, f"{base_filename}_{i}.png")
-                fig.savefig(png_path, format="png")
+                pdf_path = os.path.join(folder_path, f"{base_filename}_{i}.pdf")
+                fig.savefig(pdf_path, format="pdf")
                 plt.close(fig)  # Close the figure after saving
-                print(f"Saved {png_path}")
+                print(f"Saved {pdf_path}")
             
             print("All figures saved as PNG files.")
         return wrapper
