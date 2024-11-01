@@ -17,7 +17,7 @@ def clear_output_file(config):
     except Exception as e:
         LOGGER.error(f"Error clearing the output file: {e}")
 
-def process_csv(config):
+def aggregate_from_source(config):
     clear_output_file(config)
     try:
         csv_chunk_generator = csv_generator.csv_chunk_generator(config)
@@ -30,7 +30,7 @@ def process_csv(config):
 
 def write_chunk_to_file(i, chunk, config):
     LOGGER.info(f"Processing chunk {i + 1}")
-    rows = chunk if config['row_per_chunk'] in [0, None] else chunk.head(config['row_per_chunk']) # Write the whole chunk unless rows per chunk is defined
+    rows = chunk if config['chunk_row_limit'] in [0, None] else chunk.head(config['chunk_row_limit']) # Write the whole chunk unless rows per chunk is defined
     try:
         with safe_open(config['aggregated_data_path'], mode='a', encoding="utf-8-sig", newline='') as file: # Append each chunk to output with encoding signature to support non-latin characters
             writer = csv.writer(file, delimiter=config['delimiter'])

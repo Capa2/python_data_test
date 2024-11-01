@@ -2,23 +2,23 @@
 
 import os
 import pandas as pd
-from big_data.utils import csv_chunk_processor
-from utils.plots import bar_chart
+from big_data.utils import aggregate_chunked_data
+from utils.plot_helper import bar_chart
 from utils.safe_open import safe_open
 
 config = {
     'source_data_path': os.path.join("src", "db", "reviews", "all_reviews", "all_reviews.csv"),
     'aggregated_data_path': os.path.join("src", "db", "reviews", "extracts", "sentiment_playtime.csv"),
+    'delimiter': ";",
     'chunk_size': 2000,
     'chunk_limit': None,
-    'row_per_chunk': None,
+    'chunk_row_limit': None,
     'filter_cols': ['author_playtime_at_review', 'voted_up'],
-    'delimiter': ";",
     'lang_filter': None, # Filter by language or None for all languages
 }
 
 def prepare_data_chunks():
-    csv_chunk_processor.process_csv(config)
+    aggregate_chunked_data.aggregate_from_source(config)
 
 def compute_aggregated_metrics():
     with safe_open(config['aggregated_data_path']) as file:

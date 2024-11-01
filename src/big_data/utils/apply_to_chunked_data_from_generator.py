@@ -1,7 +1,9 @@
+# big_data/utils/apply_to_chunked_data_from_generator.py
+
 from utils.log_helper import get_logger
 from pandas.errors import ParserError, EmptyDataError
 
-LOGGER = get_logger("gen_log")
+LOGGER = get_logger("generator_log")
 
 def is_chunk_limit_reached(i, config):
     chunk_limit = config.get('chunk_limit')
@@ -11,10 +13,8 @@ def is_chunk_limit_reached(i, config):
 
 def filter_chunk_data(chunk, config):
     if config.get('filter_cols'):
-        processed_chunk = chunk.dropna(subset=config['filter_cols'])
-    else:
-        processed_chunk = chunk.dropna()
-    return processed_chunk
+        return chunk.dropna(subset=config['filter_cols'])
+    return chunk
 
 def apply_to_chunked_data_from_generator(generator, func, config):
     try:

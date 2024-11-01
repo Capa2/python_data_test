@@ -1,6 +1,6 @@
 import statistics
 from data.assignment_1_names import name_touple
-from utils.plots import boxplot, histogram
+from utils.plot_helper import boxplot, histogram
 
 def calc_name_lengths(names):
     lengths = [len(name) for name in names]

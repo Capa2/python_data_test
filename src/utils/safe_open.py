@@ -1,8 +1,7 @@
+# utils/safe_open.py
 
 from contextlib import contextmanager
 from utils.log_helper import get_logger
-import re
-import csv
 
 LOGGER = get_logger("file_errors")
 

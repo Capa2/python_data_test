@@ -1,6 +1,6 @@
 from assignment_1.data_transform import count_letters
 from data.assignment_1_names import name_touple
-from utils.plots import bar_chart, histogram, wordcloud
+from utils.plot_helper import bar_chart, histogram, wordcloud
 
 def main():
     letter_count = count_letters(name_touple)
