@@ -3,7 +3,7 @@
 
 # Project files
 src/db/all_reviews/
-src/db/analysis/
+src/db/aggregate/
 src/db/*.sql
 logs/
 .vscode/
