@@ -1,5 +1,5 @@
 
-from utils.plot_helper import bar_chart, boxplot, histogram, heatmap, wordcloud
+from utils.plot_helper import bar_chart, heatmap
 from assignment_5.sql_queries import *
 
 def main():

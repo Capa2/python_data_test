@@ -8,7 +8,7 @@ from utils.safe_open import safe_open
 
 config = {
     'source_data_path': os.path.join("src", "db", "reviews", "all_reviews", "all_reviews.csv"),
-    'aggregated_data_path': os.path.join("src", "db", "reviews", "extracts", "template_analysis.csv"),
+    'aggregated_data_path': os.path.join("src", "db", "reviews", "aggregate", "template_analysis.csv"),
     'delimiter': ";",
     'chunk_size': 2000,
     'chunk_limit': None,
