@@ -13,7 +13,7 @@ def get_logger(filename):
     logger.setLevel(logging.INFO)  # Set the overall logging level
 
     # Create file handler to log to a file
-    file_handler = logging.FileHandler(os.path.join(log_dir, filename))
+    file_handler = logging.FileHandler(os.path.join(log_dir, filename + ".log"))
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 

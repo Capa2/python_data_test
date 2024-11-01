@@ -24,15 +24,30 @@ def histogram(data, x_label, y_label, title, bins=10, rotate_labels=False):
         plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
 
-def boxplot(data, x_label, title, y_label, rotate_labels=False):
+def box_plot(x_data, y_data, x_label, y_label, title, rotate_labels=False):
     plt.figure(figsize=(10, 5))
-    sns.boxplot(y=data, color="lightgreen")
+    sns.boxplot(x=x_data, y=y_data, color="lightgreen")
     plt.title(title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     if rotate_labels:
         plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
+
+def pie_chart(labels, sizes, title, labeldistance=1.1, textprops=None):
+    plt.figure(figsize=(8, 8))
+    plt.pie(
+        sizes,
+        labels=labels,
+        autopct='%1.1f%%',
+        startangle=140,
+        labeldistance=labeldistance,
+        textprops=textprops or {'fontsize': 8}
+    )
+    plt.title(title)
+    plt.axis('equal')
+    plt.tight_layout()
+    plt.show()
 
 def heatmap(data, x_column, y_column, value_column, x_label, y_label, title, cmap="YlGnBu"):
     plt.figure(figsize=(12, 6))

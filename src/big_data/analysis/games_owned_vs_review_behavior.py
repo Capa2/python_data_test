@@ -1,12 +1,15 @@
 import os
 import pandas as pd
-from big_data.utils import aggregate_chunked_data
-from utils.plot_helper import boxplot
-from utils.safe_open import safe_open
+from big_data.utils.chunk_processor import chunk_processor
+from big_data.utils.csv_reader import read_csv_in_chunks
+from utils.plot_helper import bar_chart
+from utils.log_helper import get_logger
+
+LOGGER = get_logger("games_owned_reviews")
 
 config = {
-    'source_data_path': os.path.join("src", "db", "reviews", "all_reviews", "all_reviews.csv"),
-    'aggregated_data_path': os.path.join("src", "db", "reviews", "aggregate", "games_owned_reviews.csv"),
+    'source_data_path': os.path.join("src", "db", "reviews", "extracts", "some_reviews.csv"),
+    'preprocessed_data_path': os.path.join("src", "db", "reviews", "preprocessed", "games_owned_reviews.csv"),
     'delimiter': ";",
     'chunk_size': 2000,
     'chunk_limit': None,
@@ -15,30 +18,42 @@ config = {
     'lang_filter': None,
 }
 
-def prepare_data_chunks():
-    aggregate_chunked_data.aggregate_from_source(config)
+bins = [0, 4, 11, 21, 51, 101, 201, float("inf")]
+labels = ["0-3", "4-10", "11-20", "21-50", "51-100", "101-200", "200+"]
+
+def aggregate_reviews(chunk, config=None):
+    chunk['games_owned_bin'] = pd.cut(chunk['author_num_games_owned'], bins=bins, labels=labels, right=False)
+    return chunk.groupby('games_owned_bin', observed=True)['voted_up'].value_counts().unstack(fill_value=0)
+
+def combine_reviews(results, config=None):
+    combined = pd.concat(results)
+    final_result = combined.groupby(combined.index, observed=True).sum()
+    final_result['positive_percentage'] = (final_result[1] / (final_result[0] + final_result[1])) * 100
+    return final_result
 
 def compute_aggregated_metrics():
-    with safe_open(config['aggregated_data_path']) as file:
-        df = pd.read_csv(file, delimiter=config['delimiter'])
+    aggregated_data = chunk_processor(
+        generator=read_csv_in_chunks(config), 
+        process_func=aggregate_reviews, 
+        aggregate_func=combine_reviews,
+        config=config
+    )
 
-        # Define bins for the number of games owned
-        bins = [0, 4, 11, 21, 51, 101, 201, float("inf")]
-        labels = ["0-3", "4-10", "11-20", "21-50", "51-100", "101-200", "200+"]
-
-        # Bin the 'author_num_games_owned' column
-        df['games_owned_bin'] = pd.cut(df['author_num_games_owned'], bins=bins, labels=labels, right=False)
-
-        # Prepare data as a DataFrame with bins and corresponding sentiment values
-        plot_data = df[['games_owned_bin', 'voted_up']].dropna()
-
-        return plot_data
+    if aggregated_data is not None:
+        x_data = aggregated_data.index.astype(str).tolist()
+        y_data = aggregated_data['positive_percentage'].tolist()
+        return x_data, y_data
+    else:
+        LOGGER.error("No data to process.")
+        return [], []
 
 def chart_data():
-    boxplot(
-        data=compute_aggregated_metrics(),
+    x_data, y_data = compute_aggregated_metrics()
+    bar_chart(
+        x_data=x_data,
+        y_data=y_data,
         x_label="Games Owned (binned)",
-        y_label="Review Sentiment (1=Positive, 0=Negative)",
+        y_label="Percentage of Positive Reviews (%)",
         title="Review Sentiment Distribution by Games Owned",
         rotate_labels=True
     )

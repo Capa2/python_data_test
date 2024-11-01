@@ -2,13 +2,13 @@
 
 import os
 import pandas as pd
-from big_data.utils import aggregate_chunked_data
+from big_data.utils import data_writer
 from utils.plot_helper import bar_chart
 from utils.safe_open import safe_open
 
 config = {
     'source_data_path': os.path.join("src", "db", "reviews", "all_reviews", "all_reviews.csv"),
-    'aggregated_data_path': os.path.join("src", "db", "reviews", "aggregate", "template_analysis.csv"),
+    'preprocessed_data_path': os.path.join("src", "db", "reviews", "preprocessed", "template_analysis.csv"),
     'delimiter': ";",
     'chunk_size': 2000,
     'chunk_limit': None,
@@ -18,10 +18,10 @@ config = {
 }
 
 def prepare_data_chunks():
-    aggregate_chunked_data.aggregate_from_source(config)
+    data_writer.write_chunks_to_preprocessed_file(config)
 
 def compute_aggregated_metrics():
-    with safe_open(config['aggregated_data_path']) as file:
+    with safe_open(config['preprocessed_data_path']) as file:
         df = pd.read_csv(file, delimiter=config['delimiter'])
 
         x_data = y_data = []

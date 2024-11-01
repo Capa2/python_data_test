@@ -1,14 +1,14 @@
 # big_data/main.py
 
 import os
-from big_data.analysis import playtime_vs_sentiment, extract_sample, games_owned_vs_review_behavior
+from big_data.analysis import extract_sample, playtime_vs_sentiment, language_dist_in_reviews, games_owned_vs_review_behavior
 import matplotlib.pyplot as plt
 
 def main():
 
-    analysis = games_owned_vs_review_behavior
+    analysis = language_dist_in_reviews
 
-    analysis.prepare_data_chunks()
+    analysis.preprocess_data_to_file()
     analysis.chart_data()
 
     plt.show()
