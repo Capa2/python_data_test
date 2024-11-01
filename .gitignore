@@ -2,7 +2,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv
 
 # Project files
-src/db/
+src/db/all_reviews/
+src/db/analysis/
+src/db/*.sql
 logs/
 .vscode/
 
