@@ -5,6 +5,9 @@
 src/db/all_reviews/
 src/db/aggregate/
 src/db/*.sql
+db/all_reviews/
+db/aggregate/
+db/*.sql
 logs/
 .vscode/
 
