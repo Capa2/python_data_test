@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv
 
 # Project files
-src/db/reviews/aggregate/
+src/db/reviews/preprocessed/
 src/db/reviews/all_reviews/
 src/db/*.sql
 logs/
