@@ -16,7 +16,7 @@ def filter_chunk_data(chunk, config):
         return chunk.dropna(subset=config['filter_cols'])
     return chunk
 
-def apply_to_chunked_data_from_generator(generator, func, config):
+def apply_to_data_from_generator(generator, func, config):
     try:
         for i, chunk in enumerate(generator):
             if is_chunk_limit_reached(i, config): break

@@ -1,8 +1,8 @@
 # big_data/utils/csv_chunk_processor.py
 
 import csv
-from big_data.utils import csv_generator
-from big_data.utils.apply_to_chunked_data_from_generator import apply_to_chunked_data_from_generator
+from big_data.utils.internal import csv_generator
+from big_data.utils.internal.apply_to_data_from_generator import apply_to_data_from_generator
 from utils.safe_open import safe_open
 from utils.log_helper import get_logger
 
@@ -22,7 +22,7 @@ def aggregate_from_source(config):
     try:
         csv_chunk_generator = csv_generator.csv_chunk_generator(config)
         LOGGER.info("CSV generator initialized. Processing chunks.")
-        apply_to_chunked_data_from_generator(generator=csv_chunk_generator, func=write_chunk_to_file, config=config)
+        apply_to_data_from_generator(generator=csv_chunk_generator, func=write_chunk_to_file, config=config)
     except FileNotFoundError:
         LOGGER.error(f"File not found: {config['source_data_path']}")
     except Exception as e:
