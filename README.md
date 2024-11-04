@@ -6,23 +6,22 @@ This module is designed for processing large datasets in chunks, filtering them,
 
 ### src/big_data/
 
-- main.py: Runs playtime_vs_sentiment analysis in full and displays plot
+- main.py: Runs an analysis analysis and displays plot
 
-- analysis/**playtime_vs_sentiment.py:** Contains the analysis logic for playtime vs. sentiment.
-    - prepare_data_chunks(): Processes the raw CSV in chunks.
-    - compute_aggregated_metrics(): Aggregates and bins data for playtime intervals and sentiment.
-    - chart_data(): Generates a bar chart to visualize sentiment percentages by playtime interval.
+- utils/**chunk_processor.py:** Processes and optionally aggregates data in chunks from a generator.
+    - chunk_processor(): Main entry point, applying a function to each chunk and optionally supply an aggrigator.
+    - is_chunk_limit_reached() / filter_chunk_data(): Configurable checks for data limits and filtering.
 
-- utils/**csv_chunk_processor.py:** Generic chunk processor.
-    - process_csv(): Main entry point for chunked processing, calling a specified function on each chunk.
-    - write_chunk_to_file(): Writes processed chunks to the output file.
-    - transform_headers() / transform_rows(): Customizable functions for data filtering or transformation.
+- utils/**data_writer.py**: Handles chunked data preprocessing and file writing based on configuration.
+    - write_chunks_to_preprocessed_file(): Processes CSV in chunks and writes to a file.
+    - transform_and_append_chunk(): Transforms and appends each chunk to the preprocessed file.
 
-- utils/**apply_to_chunked_data_from_generator.py**: Supports chunk processing.
-    - apply_to_chunked_data_from_generator(): Applies a given function to each chunk in the generator.
+- utils/**csv_reader.py**: Reads CSVs in chunks.
+    - read_csv_in_chunks(): Yields CSV chunks based on config settings.
+ 
+### src/big_data/analysis
 
-- utils/**csv_generator.py**: Generator for reading large CSVs in chunks.
-    - csv_chunk_generator(): Yields chunks from a CSV based on config settings.
+- Contains specific analysis
 
 # src/utils/
 
@@ -30,27 +29,16 @@ This module is designed for processing large datasets in chunks, filtering them,
 - plotting (utils/plot_helper.py): Creates visualizations like bar charts, histograms, etc.
 - safe_open (utils/safe_open.py): Safely opens files with error handling for common file issues.
 
-## Usage
+### Data set
+Full dataset:
+- https://www.kaggle.com/datasets/kieranpoc/steam-reviews
 
-### Running the Playtime vs. Sentiment Analysis
-
-The project is set up to run this assignment from src/main.py
-
-The analysis is run from big_data/main.py, which initializes the playtime vs. sentiment analysis:
-
-        python
-
-        import os
-        from big_data.analysis import playtime_vs_sentiment
-        import matplotlib.pyplot as plt
-        
-        playtime_vs_sentiment.prepare_data_chunks()
-        playtime_vs_sentiment.chart_data()
-        plt.show()
+Partial dataset:
+- a partial dataset has been extracted at: /src/db/reviews/extracts/some_reviews.csv
 
 ### Creating a New Analysis
 
 - Duplicate the analysis_template.py and update config.
 - Define compute_aggregated_metrics() and chart_data() for your analysis.
 
-Each analysis file will only need to configure settings and define computation logic for metrics and/or charts.
+Each analysis file will only need to configure settings and define analysis logic and/or charts.
