@@ -23,22 +23,22 @@ This module is designed for processing large datasets in chunks, filtering them,
 
 - Contains specific analysis
 
-# src/utils/
+### src/utils/
 
 - Logging (utils/log_helper.py): Logs processes and errors to a file and console for debugging.
 - plotting (utils/plot_helper.py): Creates visualizations like bar charts, histograms, etc.
 - safe_open (utils/safe_open.py): Safely opens files with error handling for common file issues.
 
-### Data set
-Full dataset:
-- https://www.kaggle.com/datasets/kieranpoc/steam-reviews
+## Data set
+- Full dataset:
+    - https://www.kaggle.com/datasets/kieranpoc/steam-reviews
 
 Partial dataset:
-- a partial dataset has been extracted at: /src/db/reviews/extracts/some_reviews.csv
+    - a partial dataset has been extracted at: /src/db/reviews/extracts/some_reviews.csv
 
-### Creating a New Analysis
+## Creating a New Analysis
 
 - Duplicate the analysis_template.py and update config.
 - Define compute_aggregated_metrics() and chart_data() for your analysis.
 
-Each analysis file will only need to configure settings and define analysis logic and/or charts.
+Each analysis file will only need to configure settings and define analysis logic and/or visualisation.
